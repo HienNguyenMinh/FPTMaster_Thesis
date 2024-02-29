@@ -1,0 +1,3 @@
+Bài báo cáo: Thesis_NguyenThiMinhHien_K11.docx
+Implementation: HairDiseasesApplication
+Dem: DemoVideo_HairDiseasesDiagnostic.mp4
