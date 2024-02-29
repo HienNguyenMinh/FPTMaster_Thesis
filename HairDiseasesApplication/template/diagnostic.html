@@ -1,0 +1,315 @@
+<!doctype html>
+<html class="no-js" lang="zxx">
+    <head>
+        <!-- Meta Tags -->
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="keywords" content="Site keywords here">
+		<meta name="description" content="">
+		<meta name='copyright' content=''>
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		
+		<!-- Title -->
+        <title>AI starting</title>
+		
+		<!-- Favicon -->
+        <link rel="icon" href="static/img/favicon.png">
+		
+		<!-- Google Fonts -->
+		<link href="https://fonts.googleapis.com/css?family=Poppins:200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
+
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+		<!-- Nice Select CSS -->
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/nice-select.css') }}">
+		<!-- Font Awesome CSS -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css') }}">
+		<!-- icofont CSS -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/icofont.css') }}">
+		<!-- Slicknav -->
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/slicknav.min.css') }}">
+		<!-- Owl Carousel CSS -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/owl-carousel.css') }}">
+		<!-- Datepicker CSS -->
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/datepicker.css') }}">
+		<!-- Animate CSS -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/animate.min.css') }}">
+		<!-- Magnific Popup CSS -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/magnific-popup.css') }}">
+		
+		<!-- Medipro CSS -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+		<!-- Message-color CSS file -->
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/message-color.css') }}">		
+		
+    </head>
+    <body>	
+		<!-- Preloader -->
+        <div class="preloader">
+            <div class="loader">
+                <div class="loader-outter"></div>
+                <div class="loader-inner"></div>
+
+                <div class="indicator"> 
+                    <svg width="16px" height="12px">
+                        <polyline id="back" points="1 6 4 6 6 11 10 1 12 6 15 6"></polyline>
+                        <polyline id="front" points="1 6 4 6 6 11 10 1 12 6 15 6"></polyline>
+                    </svg>
+                </div>
+            </div>
+        </div>
+        <!-- End Preloader -->		
+		<!-- Get Pro Button -->		
+		<!-- Header Area -->
+		<header class="header" >
+			<!-- Topbar -->
+			<div class="topbar">
+				<div class="container">
+					<div class="row">
+						<div class="col-lg-6 col-md-5 col-12">
+							<!-- Contact -->
+							<ul class="top-link">
+								<li><a href="#">About</a></li>
+								<li><a href="#">Doctors</a></li>
+								<li><a href="#">Contact</a></li>
+								<li><a href="#">FAQ</a></li>
+							</ul>
+							<!-- End Contact -->
+						</div>
+						<div class="col-lg-6 col-md-7 col-12">
+							<!-- Top Contact -->
+							<ul class="top-contact">
+								<li><i class="fa fa-phone"></i>+84 1234 56789</li>
+								<li><i class="fa fa-envelope"></i><a href="mailto:support@yourmail.com">support@gmail.com</a></li>
+							</ul>
+							<!-- End Top Contact -->
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- End Topbar -->
+		</header>
+		<!-- End Header Area -->
+		
+		<!-- Start Appointment -->
+		<section class="appointment p-0 pb-5">
+			<div class="container" >	
+				<h2 class="pt-3">AI Hair Diseases Diagnostic</h2>
+				<!-- Display an error message if any -->
+    				{% if error %}
+        				<p>{{ error }}</p>
+    				{% endif %}
+
+					<div class="upload pt-3">
+						<form action="{{url_for('uploadImages')}}" method="post" enctype="multipart/form-data">
+						<div class="upload__box">
+							<div class="upload__btn-box">
+								<div class="input-group">
+									<label class="upload__btn rounded-left">
+										<p><i class="icofont icofont-upload-alt"></i> Upload images</p> 
+										<input type="file" multiple="" id="file-input" name="myfiles[]" data-max_length="20" class="upload__inputfile" accept="image/*" multiple / required="required">
+									</label>
+									<div class="input-group-append">
+										<button class="btn btn-outline-secondary" style="border-top-left-radius: 0; border-bottom-left-radius: 0;" type="submit">Diagnosis</button>									
+									</div>
+								</div>					
+							</div>
+							<div class="upload__img-wrap"></div>
+						  </div>
+						</form>  
+					</div>
+					<div class="row pt-3">
+						<div class="col">
+							<div class="alert alert-primary pt-3" role="alert">
+								<h4 class="alert-heading">AI will diagnosis hair disease name on uploaded image.</h4>
+								<p>Please upload image files!</p>
+								<hr>
+								<p class="mb-0">AI needs some seconds to check and response the result.</p>
+							  </div>
+						</div>
+					</div>	
+
+				<div style="padding: 0 15px 0 15px">					
+					<div class="row">
+						<div id="successAllMessage" class="success-message" style="display: none;">
+							Save All successful!
+						</div>
+						<div class="col text-right pb-2 pr-0">
+							<button id="saveAllBtn" class="btn-secondary rounded-0 text-blue border border-light bg-white btnn" style="padding: 6px 30px;" type="submit"><i class="icofont icofont-doctor"></i><span class="font-08"> Save All</span> </button>
+						</div>
+					</div>
+					{% if file_info_list %}
+						{% for file_info  in file_info_list %}
+							<form id="saveImageForm{{ loop.index }}" action="{{url_for('saveImage')}}" method="post" enctype="multipart/form-data">
+							<div class="row">								
+								<div class="col-12 bg-light py-3 border mb-3">
+									<div class="media">
+										<img class="mr-3 border" src="{{ file_info['file_path'] }}" alt="Generic placeholder image">
+										<input type="hidden" name="file-path" value="{{ file_info['file_path'] }}">
+										<div class="media-body">
+											<div class="row">
+												<div class="col">
+											<h5 class="mt-0 py-2 bg-blue text-center">VGG16</h5>
+											<div class="d-flex border border-top-0 border-left-0 border-right-0 pt-3">
+												<div class=""><small class="text-muted">Disease name</small></div>										
+												<div class="ml-auto text-right text-normal">{{ file_info['prediction_result_VGG16']['class_name'] }}</div>
+											</div>		
+											<div class="d-flex border border-top-0 border-left-0 border-right-0">
+												<div class=""><small class="text-muted">Accuracy</small></div>
+												<div class="ml-auto text-right"><span class="badge badge-pill badge-secondary">{{ file_info['prediction_result_VGG16']['probability'] }}</span>%</div>
+											</div>										
+										</div>
+												<div class="col">
+											<h5 class="mt-0 py-2 bg-blue text-center">VGG19</h5>
+											<div class="d-flex border border-top-0 border-left-0 border-right-0 pt-3">
+												<div class=""><small class="text-muted">Disease name</small></div>										
+												<div class="ml-auto text-right text-normal">{{ file_info['prediction_result_VGG19']['class_name'] }}</div>
+											</div>		
+											<div class="d-flex border border-top-0 border-left-0 border-right-0">
+												<div class=""><small class="text-muted">Accuracy</small></div>										
+												<div class="ml-auto text-right"><span class="badge badge-pill badge-secondary">{{ file_info['prediction_result_VGG19']['probability'] }}</span>%</div>
+											</div>			
+										</div>
+												<div class="col">
+													<h5 class="mt-0 py-2 bg-blue text-center">InceptionV3</h5>
+													<div class="d-flex border border-top-0 border-left-0 border-right-0 pt-3">
+														<div class=""><small class="text-muted">Disease name</small></div>
+														<div class="ml-auto text-right text-normal">{{ file_info['prediction_result_inception']['class_name'] }}</div>
+													</div>
+												<div class="d-flex border border-top-0 border-left-0 border-right-0 border-botton-green">
+													<div class=""><small class="text-muted">Accuracy</small></div>
+													<div class="ml-auto text-right"><span class="badge badge-pill badge-success">{{ file_info['prediction_result_inception']['probability'] }}</span>%</div>
+												</div>
+												</div>
+											</div>
+											<div class="pt-4">
+												<div class="input-group">
+													<div class="">Diagnostic Conclusion:</div>
+													<input type="text" name="conclusion-input" class="form-control rounded-0 font-08 border border-light border-left-blue pl-2" placeholder="Final conclussion" required="required" aria-label="Final conclussion" aria-describedby="basic-addon2">
+													<input type="text" name="patient-ID" class="form-control rounded-0 font-08 border border-light border-left-blue pl-2" placeholder="ID" required="required" aria-label="Final conclussion" aria-describedby="basic-addon2">
+													<div class="input-group-append">
+														<button id="save-btn" class="btn-secondary rounded-0 text-blue border border-light bg-white  btnn" style="padding: 6px 30px;" type="submit"><i class="icofont icofont-doctor"></i><span class="font-08"> Save</span> </button>
+													</div>
+												</div>
+											</div>
+											<div class="pt-4">
+												<div id="successMessage{{ loop.index }}" class="success-message" style="display: none;">
+													Save successful!
+												</div>
+											</div>	
+										</div>
+									</div>
+								</div>
+								</form>
+								
+							</div>
+						{% endfor %}
+					{% endif %}
+				</div>						
+			</div>
+		</section>
+		<!-- End Appointment -->
+
+
+		
+		<!-- Footer Area -->
+		<footer id="footer" class="footer">
+			<!-- Footer Top -->
+			<div class="footer-top  py-5">
+				<div class="container">
+					<div class="row">
+						<div class="col-lg-3 col-md-6 col-12">
+							<div class="single-footer">
+								<h2>About Us</h2>
+								<p>We are always a pioneer in applying the most modern technology to medical diagnosis.</p>
+								<!-- Social -->
+								<ul class="social">
+									<li><a href="#"><i class="icofont-facebook"></i></a></li>
+									<li><a href="#"><i class="icofont-google-plus"></i></a></li>
+									<li><a href="#"><i class="icofont-twitter"></i></a></li>
+									<li><a href="#"><i class="icofont-vimeo"></i></a></li>
+									<li><a href="#"><i class="icofont-pinterest"></i></a></li>
+								</ul>
+								<!-- End Social -->
+							</div>
+						</div>					
+						<div class="col-lg-3 col-md-6 col-12">
+							<div class="single-footer">
+								<h2>Newsletter</h2>
+								<p>Subscribe to our newsletter for updates and special offers in your inbox!</p>
+								<form action="mail/mail.php" method="get" target="_blank" class="newsletter-inner">
+									<input name="email" placeholder="Email Address" class="common-input" onfocus="this.placeholder = ''"
+										onblur="this.placeholder = 'Your email address'" required="" type="email">
+									<button class="button"><i class="icofont icofont-paper-plane"></i></button>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--/ End Footer Top -->
+			<!-- Copyright -->
+			<div class="copyright">
+				<div class="container">
+					<div class="row">
+						<div class="col-lg-12 col-md-12 col-12">
+							<div class="copyright-content">
+								<p>© Copyright 2023  |  All Rights Reserved by <a href="https://www.coming.com" target="_blank">ai-diagnostic.com</a> </p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--/ End Copyright -->
+		</footer>
+		<!--/ End Footer Area -->
+
+		
+		<!-- jquery Min JS -->
+        <script src="static/js/jquery.min.js"></script>
+		<!-- jquery Migrate JS -->
+		<script src="static/js/jquery-migrate-3.0.0.js"></script>
+		<!-- jquery Ui JS -->
+		<script src="static/js/jquery-ui.min.js"></script>
+		<!-- Easing JS -->
+        <script src="static/js/easing.js"></script>
+		<!-- Color JS -->
+		<script src="static/js/colors.js"></script>
+		<!-- Popper JS -->
+		<script src="static/js/popper.min.js"></script>
+		<!-- Bootstrap Datepicker JS -->
+		<script src="static/js/bootstrap-datepicker.js"></script>
+		<!-- Jquery Nav JS -->
+        <script src="static/js/jquery.nav.js"></script>
+		<!-- Slicknav JS -->
+		<script src="static/js/slicknav.min.js"></script>
+		<!-- ScrollUp JS -->
+        <script src="static/js/jquery.scrollUp.min.js"></script>
+		<!-- Niceselect JS -->
+		<script src="static/js/niceselect.js"></script>
+		<!-- Tilt Jquery JS -->
+		<script src="static/js/tilt.jquery.min.js"></script>
+		<!-- Owl Carousel JS -->
+        <script src="static/js/owl-carousel.js"></script>
+		<!-- counterup JS -->
+		<!-- <script src="js/jquery.counterup.min.js"></script> -->
+		<!-- Steller JS -->
+		<script src="static/js/steller.js"></script>
+		<!-- Wow JS -->
+		<script src="static/js/wow.min.js"></script>
+		<!-- Magnific Popup JS -->
+		<script src="static/js/jquery.magnific-popup.min.js"></script>
+		<!-- Counter Up CDN JS -->
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/waypoints/2.0.3/waypoints.min.js"></script>
+		<!-- Bootstrap JS -->
+		<script src="static/js/bootstrap.min.js"></script>
+		<!-- Main JS -->
+		<script src="static/js/main.js"></script>		
+		<!--Save-Image files JS-->
+		<script src="static\js\save-image.js"></script>
+		<!--Save All files JS-->
+		<script src="static\js\saveAll.js"></script>
+    </body>
+</html>
